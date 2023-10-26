@@ -1,13 +1,13 @@
+package src.model;
+
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.util.Random;
-
+import javax.swing.*;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements ActionListener {
-	//declaration of variables and data structures
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	static final int SCREEN_WIDTH = 600;
 	static final int SCREEN_HEIGHT = 600;
 	static final int UNIT_SIZE = 25;
@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	Timer timer;
 	Random random;
 	
-	//constructor
+	// Constructor
 	GamePanel() {
 		random = new Random();
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
