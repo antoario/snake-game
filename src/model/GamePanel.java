@@ -212,6 +212,9 @@ public class GamePanel extends JPanel implements ActionListener {
         checkCollisions();
 
         repaint();
+
+        // Remove lag on Linux
+        Toolkit.getDefaultToolkit().sync();
     }
 
 
