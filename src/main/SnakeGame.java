@@ -1,6 +1,6 @@
-package src.main;
+package main;
 
-import src.model.GameFrame;
+import model.GameFrame;
 
 /**
  * The SnakeGame class serves as the entry point for the Snake game application.
