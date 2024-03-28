@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private final int x[] = new int[GAME_UNITS];
     private final int y[] = new int[GAME_UNITS];
     private int bodyParts = 5;
-    private int appleEaten, appleX, appleY;
+    private int appleEaten = 0, appleX, appleY;
     private int bufferX = 3, bufferY = 2;
     private char direction = 'R';
     private boolean running = false;
@@ -37,17 +37,32 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setBackground(Color.black);
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
+
+
         startGame();
+        timer = new Timer(DELAY, this);
+        timer.start();
     }
 
     /**
      * Starts the game by initializing necessary components and starting the timer.
      */
-    public void startGame() {
-        newApple();
+     public void startGame(){
+        bodyParts = 5;
+        //appleEaten, appleX, appleY;
+        bufferX = 3;
+        bufferY = 2;
+        direction = 'R';
+
         running = true;
-        timer = new Timer(DELAY, this);
-        timer.start();
+        appleEaten = 0;
+
+        for(int i = 0; i < x.length; i++)
+            x[i] = 0;
+        for(int i = 0; i < y.length; i++)
+            y[i] = 0;
+
+        newApple();
     }
 
     /**
@@ -151,13 +166,16 @@ public class GamePanel extends JPanel implements ActionListener {
         // Check if head touches left border
         if (x[0] < 0) running = false;
         // Check if head touches right border
-        if (x[0] > SCREEN_WIDTH) running = false;
+        else if (x[0] > SCREEN_WIDTH) running = false;
         // Check if head touches top border
-        if (y[0] < 0) running = false;
+        else if (y[0] < 0) running = false;
         // Check if head touches bottom border
-        if (y[0] > SCREEN_HEIGHT) running = false;
+        else if (y[0] > SCREEN_HEIGHT) running = false;
 
-        if (!running) timer.stop();
+        if (!running){
+            timer.setInitialDelay(3000);
+            timer.restart();
+        }
     }
 
     /**
@@ -186,13 +204,20 @@ public class GamePanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (running) {
-            move();
-            checkApple();
-            checkCollisions();
-        }
+        if (!running)
+            startGame();
+
+        move();
+        checkApple();
+        checkCollisions();
+
         repaint();
+
+        // Remove lag on Linux
+        Toolkit.getDefaultToolkit().sync();
     }
+
+
 
     /**
      * Inner class representing a KeyAdapter for handling key presses.
